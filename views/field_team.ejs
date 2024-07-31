@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field Team Page</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      text-align: center;
+    }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: #000;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    button {
+      font-size: 2em;
+      padding: 20px 40px;
+      margin: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    button:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+    #ringing-counter, #paging-counter {
+      margin-top: 20px;
+      font-size: 2em;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body class="gradient-bg">
+  <div class="container">
+    <h1>Field Team Page</h1>
+    <button onclick="sendAction('ringing')">Ringing</button>
+    <button onclick="sendAction('paging')">Paging</button>
+    <div id="ringing-counter">Ringing: 0</div>
+    <div id="paging-counter">Paging: 0</div>
+  </div>
+
+  <script>
+    let ringingCount = 0;
+    let pagingCount = 0;
+
+    function sendAction(type) {
+      if (type === 'ringing') {
+        ringingCount++;
+        document.getElementById('ringing-counter').textContent = 'Ringing: ' + ringingCount;
+      } else if (type === 'paging') {
+        pagingCount++;
+        document.getElementById('paging-counter').textContent = 'Paging: ' + pagingCount;
+      }
+
+      fetch('/action', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ type })
+      });
+    }
+  </script>
+</body>
+</html>
